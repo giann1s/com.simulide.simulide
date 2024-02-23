@@ -38,12 +38,18 @@ sed -i 's/modules.txt/arduino-cli_modules.txt/g' $DIR/arduino-cli.mod.yml
 # Apply indentation
 sed -i -e 's/^/      /' $DIR/task.mod.yml
 sed -i -e 's/^/      /' $DIR/arduino-cli.mod.yml
+sed -i '/^\s*$/s/\s*//' $DIR/task.mod.yml
+sed -i '/^\s*$/s/\s*//' $DIR/arduino-cli.mod.yml
 sed -i ':a;/^[ \n]*$/{$d;N;ba}' $DIR/task.mod.yml
 sed -i ':a;/^[ \n]*$/{$d;N;ba}' $DIR/arduino-cli.mod.yml
+
+sed -i '1d' $DIR/task.mod.yml
+sed -i '1d' $DIR/arduino-cli.mod.yml
 
 # Clear old go modules
 sed -i '/        dest: .\/arduino-cli/,/  - name: simulide/c\        dest: .\/arduino-cli\n\n  - name: simulide' com.simulide.simulide.yml
 # Insert new ones
 sed -i "/^        dest: .\/arduino-cli$/r $DIR/arduino-cli.mod.yml" com.simulide.simulide.yml
+sed -i "/        dest: .\/arduino-cli/G" com.simulide.simulide.yml
 sed -i "/^        dest: .\/arduino-cli$/r $DIR/task.mod.yml" com.simulide.simulide.yml
 sed -i "/        dest: .\/arduino-cli/G" com.simulide.simulide.yml
