@@ -32,9 +32,9 @@ modules:
         sha256: 1d0f2bc675f4b7b1cea1fd5799a1f5d1c917b1a73ac98f18eefdd41ecb030fc1
         dest: ./task
 
-      - type: git
-        url: https://github.com/arduino/arduino-cli
-        commit: 95cfd65 # v0.35.3
+      - type: archive
+        url: https://github.com/arduino/arduino-cli/archive/refs/tags/v0.35.3.tar.gz
+        sha256: b93bd201bef0790ccea3e8646f451e0e825bdcc1fab562a5e32dab4c90ee7fdb
         dest: ./arduino-cli
 
       - type: file
