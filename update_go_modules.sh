@@ -1,5 +1,19 @@
-task_ver="v3.34.1"
-arduino_cli_ver="v0.35.3"
+# Extract versions from yaml
+
+file="com.simulide.simulide.yml"
+
+base_url="https://github.com/go-task/task/archive/refs/tags/"
+line=$(grep "$base_url" "$file")
+task_ver=$(echo "$line" | grep -oP "(?<=${base_url}v)[0-9]+\.[0-9]+\.[0-9]+")
+task_ver="v$task_ver"
+
+base_url="https://github.com/arduino/arduino-cli/archive/refs/tags/"
+line=$(grep "$base_url" "$file")
+arduino_cli_ver=$(echo "$line" | grep -oP "(?<=${base_url}v)[0-9]+\.[0-9]+\.[0-9]+")
+arduino_cli_ver="v$arduino_cli_ver"
+
+# Create folders and set go path
+
 DIR=$PWD/generate_sources
 
 mkdir -p $DIR; rm -rf $DIR/*
@@ -9,6 +23,8 @@ cd $DIR
 mkdir $DIR/go
 export GOPATH=$DIR/go
 
+# Download sources
+
 wget -O task.tar.gz https://github.com/go-task/task/archive/refs/tags/$task_ver.tar.gz
 tar -xf task.tar.gz
 rm -rf ./task && mv ./task-* ./task
@@ -16,6 +32,8 @@ rm -rf ./task && mv ./task-* ./task
 wget -O arduino-cli.tar.gz https://github.com/arduino/arduino-cli/archive/refs/tags/$arduino_cli_ver.tar.gz
 tar -xf arduino-cli.tar.gz
 rm -rf ./arduino-cli && mv ./arduino-cli-* ./arduino-cli
+
+# Create flatpak sources
 
 cd ./task; go run github.com/dennwc/flatpak-go-mod@latest; cd ..
 cd ./arduino-cli; go run github.com/dennwc/flatpak-go-mod@latest; cd ..
