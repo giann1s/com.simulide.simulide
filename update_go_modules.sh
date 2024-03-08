@@ -65,9 +65,9 @@ sed -i '1d' $DIR/task.mod.yml
 sed -i '1d' $DIR/arduino-cli.mod.yml
 
 # Clear old go modules
-sed -i '/        dest: .\/arduino-cli/,/  - name: simulide/c\        dest: .\/arduino-cli\n\n  - name: simulide' com.simulide.simulide.yml
+sed -i '/        dest: .\/arduino-cli/,/  - name: simulide/c\        dest: .\/arduino-cli\n\n  - name: simulide' $file
 # Insert new ones
-sed -i "/^        dest: .\/arduino-cli$/r $DIR/arduino-cli.mod.yml" com.simulide.simulide.yml
-sed -i "/        dest: .\/arduino-cli/G" com.simulide.simulide.yml
-sed -i "/^        dest: .\/arduino-cli$/r $DIR/task.mod.yml" com.simulide.simulide.yml
-sed -i "/        dest: .\/arduino-cli/G" com.simulide.simulide.yml
+sed -i "/^        dest: .\/arduino-cli$/r $DIR/arduino-cli.mod.yml" $file
+sed -i "/        dest: .\/arduino-cli/G" $file
+sed -i "/^        dest: .\/arduino-cli$/r $DIR/task.mod.yml" $file
+sed -i "/        dest: .\/arduino-cli/G" $file
