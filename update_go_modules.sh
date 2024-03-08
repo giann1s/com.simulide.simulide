@@ -1,20 +1,7 @@
-# Extract versions from yaml
-
-file="com.simulide.simulide.yml"
-
-base_url="https://github.com/go-task/task/archive/refs/tags/"
-line=$(grep "$base_url" "$file")
-task_ver=$(echo "$line" | grep -oP "(?<=${base_url}v)[0-9]+\.[0-9]+\.[0-9]+")
-task_ver="v$task_ver"
-
-base_url="https://github.com/arduino/arduino-cli/archive/refs/tags/"
-line=$(grep "$base_url" "$file")
-arduino_cli_ver=$(echo "$line" | grep -oP "(?<=${base_url}v)[0-9]+\.[0-9]+\.[0-9]+")
-arduino_cli_ver="v$arduino_cli_ver"
+manifest="com.simulide.simulide.yml"
+DIR=$PWD/generate_sources
 
 # Create folders and set go path
-
-DIR=$PWD/generate_sources
 
 mkdir -p $DIR; rm -rf $DIR/*
 
@@ -22,6 +9,18 @@ cd $DIR
 
 mkdir $DIR/go
 export GOPATH=$DIR/go
+
+# Extract versions from yaml
+
+base_url="https://github.com/go-task/task/archive/refs/tags/"
+line=$(grep "$base_url" "$manifest")
+task_ver=$(echo "$line" | grep -oP "(?<=${base_url}v)[0-9]+\.[0-9]+\.[0-9]+")
+task_ver="v$task_ver"
+
+base_url="https://github.com/arduino/arduino-cli/archive/refs/tags/"
+line=$(grep "$base_url" "$manifest")
+arduino_cli_ver=$(echo "$line" | grep -oP "(?<=${base_url}v)[0-9]+\.[0-9]+\.[0-9]+")
+arduino_cli_ver="v$arduino_cli_ver"
 
 # Download sources
 
@@ -65,9 +64,9 @@ sed -i '1d' $DIR/task.mod.yml
 sed -i '1d' $DIR/arduino-cli.mod.yml
 
 # Clear old go modules
-sed -i '/        dest: .\/arduino-cli/,/  - name: simulide/c\        dest: .\/arduino-cli\n\n  - name: simulide' $file
+sed -i '/        dest: .\/arduino-cli/,/  - name: simulide/c\        dest: .\/arduino-cli\n\n  - name: simulide' $manifest
 # Insert new ones
-sed -i "/^        dest: .\/arduino-cli$/r $DIR/arduino-cli.mod.yml" $file
-sed -i "/        dest: .\/arduino-cli/G" $file
-sed -i "/^        dest: .\/arduino-cli$/r $DIR/task.mod.yml" $file
-sed -i "/        dest: .\/arduino-cli/G" $file
+sed -i "/^        dest: .\/arduino-cli$/r $DIR/arduino-cli.mod.yml" $manifest
+sed -i "/        dest: .\/arduino-cli/G" $manifest
+sed -i "/^        dest: .\/arduino-cli$/r $DIR/task.mod.yml" $manifest
+sed -i "/        dest: .\/arduino-cli/G" $manifest
