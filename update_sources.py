@@ -36,7 +36,7 @@ def get_latest_github_tag(repo_owner, repo_name):
 
     if response.status_code == 200:
         tags_info = response.json()
-        stable_tags = [tag['name'] for tag in tags_info if not "rc" in tag['name']] # exclude pre-releasesupda  
+        stable_tags = [tag['name'] for tag in tags_info if not "rc" in tag['name']] # exclude pre-releases
         if stable_tags:
             latest_stable_tag = max(stable_tags)
             return latest_stable_tag
