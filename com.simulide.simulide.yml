@@ -27,14 +27,14 @@ modules:
       - install -Dm755 -t /app/bin/arduino-ide/resources/app/lib/backend/resources/ ./arduino-cli/arduino-cli
 
     sources:
-      - type: archive
-        url: https://github.com/go-task/task/archive/refs/tags/v3.35.1.tar.gz
-        sha256: 09fec550ce19f531ebb94379cea747efff24f6da2465e5a60c53cf8cbae0d9ba
+      - type: git
+        url: https://github.com/go-task/task.git
+        tag: v3.35.1
         dest: ./task
 
-      - type: archive
-        url: https://github.com/arduino/arduino-cli/archive/refs/tags/v0.35.3.tar.gz
-        sha256: b93bd201bef0790ccea3e8646f451e0e825bdcc1fab562a5e32dab4c90ee7fdb
+      - type: git
+        url: https://github.com/arduino/arduino-cli.git
+        tag: v0.35.3
         dest: ./arduino-cli
 
       - type: file
